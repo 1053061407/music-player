@@ -1,43 +1,91 @@
 <template>
-  <div id="wrapper">
-    <img id="logo" src="~@/assets/logo.png" alt="electron-vue">
-    <main>
-      <div class="left-side">
-        <span class="title">
-          Welcome to your new project!
-        </span>
-        <system-information></system-information>
+  <div id="root">
+    <div id="wrapper">
+      <el-input placeholder="请输入内容" v-model="song" @keyup.enter.native="search"></el-input>
+      <div class="doc">
+        <button class="alt" @click="search">网易</button>
+        <button class="alt" @click="search">虾米</button>
+        <button class="alt" @click="search">QQ音乐</button>
       </div>
-
-      <div class="right-side">
-        <div class="doc">
-          <div class="title">Getting Started</div>
-          <p>
-            electron-vue comes packed with detailed documentation that covers everything from
-            internal configurations, using the project structure, building your application,
-            and so much more.
-          </p>
-          <button @click="open('https://simulatedgreg.gitbooks.io/electron-vue/content/')">Read the Docs</button><br><br>
-        </div>
-        <div class="doc">
-          <div class="title alt">Other Documentation</div>
-          <button class="alt" @click="open('https://electron.atom.io/docs/')">Electron</button>
-          <button class="alt" @click="open('https://vuejs.org/v2/guide/')">Vue.js</button>
-        </div>
-      </div>
-    </main>
+      <el-table
+        :data="musicList"
+        stripe
+        style="width: 100%">
+        <el-table-column
+          label="歌曲名"
+          width="180">
+          <template slot-scope="scope">
+            <el-button  size="small" type="text" style='color: #42b983' @click="playMusic(scope.row.id)">{{scope.row.name}}
+            </el-button>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="歌手"
+          width="180">
+          <template slot-scope="scope">
+            <el-button  size="small" type="text" style='color: #42b983' @click="handleCancelTop(scope.row.id,scope.row)">{{scope.row.artists[0].name}}
+            </el-button>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="专辑">
+          <template slot-scope="scope">
+            <el-button  size="small" type="text" style='color: #42b983' @click="handleCancelTop(scope.row.id,scope.row)">{{scope.row.album.name}}
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+    <div>
+      <audio :src="musicUrl" autoplay></audio>
+    </div>
   </div>
 </template>
 
 <script>
   import SystemInformation from './LandingPage/SystemInformation'
-
+  import { fetchMusicList, fetchMusicUrl } from '../api/fetchMusic'
   export default {
     name: 'landing-page',
+    data () {
+      return {
+        song: '',
+        menu: '163',
+        musicList: [],
+        musicId: '',
+        musicUrl: ''
+      }
+    },
+    mounted() {
+    },
     components: { SystemInformation },
     methods: {
       open (link) {
         this.$electron.shell.openExternal(link)
+      },
+      search(e) {
+        if(e.target.innerHTML) {
+          this.menu = e.target.innerHTML
+          console.log(this.menu)
+        }
+        if(this.menu === '163') {
+          fetchMusicList(this.song).then(response => {
+            console.log(response.data.result.songs)
+            this.musicList = response.data.result.songs
+          })
+        }
+        else if (this.menu === '虾米') {
+
+        }
+        else {
+
+        }
+      },
+      playMusic(id) {
+        fetchMusicUrl(id).then(response => {
+          console.log(response.data.data[0].url)
+          this.musicUrl = response.data.data[0].url
+        })
       }
     }
   }
@@ -54,22 +102,27 @@
 
   body { font-family: 'Source Sans Pro', sans-serif; }
 
-  #wrapper {
-    background:
-      radial-gradient(
-        ellipse at top left,
-        rgba(255, 255, 255, 1) 40%,
-        rgba(229, 229, 229, .9) 100%
-      );
+  #root {
     height: 100vh;
     padding: 60px 80px;
     width: 100vw;
   }
 
-  #logo {
-    height: auto;
-    margin-bottom: 20px;
-    width: 420px;
+  #wrapper {
+    height: 90%;
+    overflow-y: scroll;
+    clear: both;
+  }
+
+  input {
+    width:100%;
+    height: 40px;
+    padding: 0 15px;
+    background-color: #fff;
+    background-image: none;
+    border-radius: 4px;
+    border: 1px solid #dcdfe6;
+    font-size: inherit;
   }
 
   main {
@@ -78,29 +131,6 @@
   }
 
   main > div { flex-basis: 50%; }
-
-  .left-side {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .welcome {
-    color: #555;
-    font-size: 23px;
-    margin-bottom: 10px;
-  }
-
-  .title {
-    color: #2c3e50;
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 6px;
-  }
-
-  .title.alt {
-    font-size: 18px;
-    margin-bottom: 10px;
-  }
 
   .doc p {
     color: black;
@@ -112,7 +142,6 @@
     cursor: pointer;
     outline: none;
     padding: 0.75em 2em;
-    border-radius: 2em;
     display: inline-block;
     color: #fff;
     background-color: #4fc08d;
