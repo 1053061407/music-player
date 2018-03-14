@@ -1,7 +1,7 @@
 <template>
   <div id="root">
     <div id="wrapper">
-      <el-input placeholder="请输入内容" v-model="song" @keyup.enter.native="search"></el-input>
+      <el-input placeholder="请输入歌曲名称" v-model="song" @keyup.enter.native="search"></el-input>
       <div class="doc">
         <button class="alt" @click="search">网易</button>
         <button class="alt" @click="search">虾米</button>
@@ -15,7 +15,7 @@
           label="歌曲名"
           width="180">
           <template slot-scope="scope">
-            <el-button  size="small" type="text" style='color: #42b983' @click="playMusic(scope.row.id)">{{scope.row.name}}
+            <el-button  size="small" type="text" style='color: #42b983' @click="playMusic(scope.row.id,scope.row.name,scope.row.artists[0].name)">{{scope.row.name}}
             </el-button>
           </template>
         </el-table-column>
@@ -36,15 +36,14 @@
         </el-table-column>
       </el-table>
     </div>
-    <div>
-      <audio :src="musicUrl" autoplay></audio>
-    </div>
+    <controlBtn :musicUrl="musicUrl" :status="status" :songName="songName" :singer="singer"></controlBtn>
   </div>
 </template>
 
 <script>
   import SystemInformation from './LandingPage/SystemInformation'
   import { fetchMusicList, fetchMusicUrl } from '../api/fetchMusic'
+  import controlBtn from './controlBtn.vue'
   export default {
     name: 'landing-page',
     data () {
@@ -53,12 +52,15 @@
         menu: '163',
         musicList: [],
         musicId: '',
-        musicUrl: ''
+        musicUrl: '',
+        status: 'pause',
+        songName: '',
+        singer: ''
       }
     },
     mounted() {
     },
-    components: { SystemInformation },
+    components: { SystemInformation,controlBtn },
     methods: {
       open (link) {
         this.$electron.shell.openExternal(link)
@@ -66,11 +68,9 @@
       search(e) {
         if(e.target.innerHTML) {
           this.menu = e.target.innerHTML
-          console.log(this.menu)
         }
         if(this.menu === '163') {
           fetchMusicList(this.song).then(response => {
-            console.log(response.data.result.songs)
             this.musicList = response.data.result.songs
           })
         }
@@ -81,11 +81,14 @@
 
         }
       },
-      playMusic(id) {
+      playMusic(id,songName,singer) {
         fetchMusicUrl(id).then(response => {
-          console.log(response.data.data[0].url)
-          this.musicUrl = response.data.data[0].url
+          console.log(response.data.data[0].url);
+          this.musicUrl = response.data.data[0].url;
         })
+        this.status = 'play';
+        this.songName = songName
+        this.singer = singer;
       }
     }
   }

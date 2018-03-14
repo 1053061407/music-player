@@ -1,6 +1,6 @@
-# demo
+# music-player
 
-> An electron-vue project
+> A music-player build with electron-vue
 
 #### Build Setup
 
@@ -14,15 +14,14 @@ npm run dev
 # build electron application for production
 npm run build
 
-# run unit & end-to-end tests
-npm test
-
-
-# lint all JS/Vue component files in `src/`
-npm run lint
-
 ```
+#### 项目介绍
+这个项目是我独自开发的一款音乐桌面端软件，主要拿一些现在已有的音乐软件练手。由于一些音乐软件的版权问题，导致平时听歌得切换不同的音乐软件。后来在接触了Listen1这款软件，它的集网易云，虾米，qq音乐三大平台歌曲的特点让我可以在一个软件上可以听到任意的歌曲，不用再切换软件。出于个人兴趣，于是也想做一款这样的软件做练手项目。
 
----
+#### 目前已实现的功能
+1. 搜索音乐
 
-This project was generated with [electron-vue](https://github.com/SimulatedGREG/electron-vue)@[7c4e3e9](https://github.com/SimulatedGREG/electron-vue/tree/7c4e3e90a772bd4c27d2dd4790f61f09bae0fcef) using [vue-cli](https://github.com/vuejs/vue-cli). Documentation about the original structure can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/index.html).
+2. 播放，暂停
+
+3. 显示歌曲播放进度
+
