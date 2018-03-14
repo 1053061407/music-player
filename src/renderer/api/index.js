@@ -5,9 +5,9 @@ import store from '../store'
 
 // 创建axios实例
 const service = axios.create({
-  withCredentials: true,
+  // withCredentials: true,
   // baseURL: 'http://localhost:3000',
-  baseURL: 'http://localhost:3000', // api的base_url
+  baseURL: 'http://localhost:8001', // api的base_url
   timeout: 15000 // 请求超时时间
 })
 

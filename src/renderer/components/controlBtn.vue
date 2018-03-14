@@ -101,7 +101,6 @@
         var currentTime = audio.currentTime
         var duration  = audio.duration
         var width = canvas.width
-        console.log(width)
         var moveLengthX = currentTime*(width-50)/duration
         var x = moveLengthX + 50
         var currentSecond = Math.floor(currentTime%60)

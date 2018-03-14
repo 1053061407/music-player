@@ -19,7 +19,9 @@ var _store2 = _interopRequireDefault(_store);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var service = _axios2.default.create({
-  baseURL: 'http://localhost:8001',
+  withCredentials: true,
+
+  baseURL: 'http://gw.api.taobao.com/router/rest',
   timeout: 15000 });
 
 service.interceptors.request.use(function (config) {
@@ -33,4 +35,4 @@ service.interceptors.request.use(function (config) {
 service.interceptors.response.use();
 
 exports.default = service;
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=xiami.js.map

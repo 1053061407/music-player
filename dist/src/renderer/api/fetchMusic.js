@@ -12,15 +12,18 @@ var _index2 = _interopRequireDefault(_index);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function fetchMusicList(song) {
-  return _index2.default.get('/search', {
+function fetchMusicList(song, menu) {
+
+  var api = '/api/search/song/' + menu;
+  return _index2.default.get(api, {
     params: {
-      'keywords': song
+      'key': song
     }
   });
 }
-function fetchMusicUrl(id) {
-  return _index2.default.get('/music/url', {
+function fetchMusicUrl(id, menu) {
+  var api = '/api/get/song/' + menu;
+  return _index2.default.get(api, {
     params: {
       'id': id
     }

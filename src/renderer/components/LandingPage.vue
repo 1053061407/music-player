@@ -3,9 +3,9 @@
     <div id="wrapper">
       <el-input placeholder="请输入歌曲名称" v-model="song" @keyup.enter.native="search"></el-input>
       <div class="doc">
-        <button class="alt" @click="search">网易</button>
-        <button class="alt" @click="search">虾米</button>
-        <button class="alt" @click="search">QQ音乐</button>
+        <el-button class="alt" @click="search" type="text">网易</el-button>
+        <el-button class="alt" @click="search" type="text">虾米</el-button>
+        <el-button class="alt" @click="search" type="text">QQ音乐</el-button>
       </div>
       <el-table
         :data="musicList"
@@ -49,7 +49,8 @@
     data () {
       return {
         song: '',
-        menu: '163',
+        menu: '网易',
+        alias: 'netease',  //与网易，虾米，qq音乐进行中英文映射
         musicList: [],
         musicId: '',
         musicUrl: '',
@@ -58,36 +59,79 @@
         singer: ''
       }
     },
+    watch: {
+      menu(val) {
+        var button = document.getElementsByClassName('alt')
+        switch (val) {
+          case '网易': {button[1].style.cssText='';button[2].style.cssText='';break}
+          case '虾米': {button[0].style.cssText='';button[2].style.cssText='';break}
+          case 'QQ音乐': {button[0].style.cssText='';button[1].style.cssText='';break}
+        }
+        this.setBgc()
+      }
+    },
     mounted() {
+      this.setBgc()
     },
     components: { SystemInformation,controlBtn },
     methods: {
+      setBgc() {
+        var cssText = 'background:#000;border: 1px solid #4fc08d;'
+        var button = document.getElementsByClassName('alt')
+        if(this.menu == '网易') {
+          var button = button[0];
+          button.style.cssText = cssText;
+        }
+        else if (this.menu == '虾米') {
+          var button = button[1]
+          button.style.cssText = cssText;
+        }
+        else {
+          var button = button[2]
+          button.style.cssText = cssText;
+        }
+      },
       open (link) {
-        this.$electron.shell.openExternal(link)
+        this.$electron.shell.openExternal(link);
       },
       search(e) {
         if(e.target.innerHTML) {
-          this.menu = e.target.innerHTML
+          this.menu = e.target.innerHTML;
         }
-        if(this.menu === '163') {
-          fetchMusicList(this.song).then(response => {
-            this.musicList = response.data.result.songs
+        if(this.song !== '') {
+          if(this.menu == '网易') {
+            this.alias = 'netease';
+          }
+          else if(this.menu == '虾米') {
+            this.alias = 'xiami';
+          }
+          else {
+            this.alias = 'qq';
+          }
+          fetchMusicList(this.song,this.alias).then(response => {
+            console.log(response)
+            this.musicList = response.data.songList;
           })
-        }
-        else if (this.menu === '虾米') {
-
-        }
-        else {
-
         }
       },
       playMusic(id,songName,singer) {
-        fetchMusicUrl(id).then(response => {
-          console.log(response.data.data[0].url);
-          this.musicUrl = response.data.data[0].url;
+        fetchMusicUrl(id, this.alias).then(response => {
+          console.log(response.data);
+          if(this.menu == '网易') {
+            this.musicUrl = response.data.url;
+          }
+          else if(this.menu == '虾米') {
+            var song
+            for(song of this.musicList) {
+              console.log(song)
+              if(song.id == id) {
+                this.musicUrl = song.file
+              }
+            }
+          }
         })
         this.status = 'play';
-        this.songName = songName
+        this.songName = songName;
         this.singer = singer;
       }
     }
@@ -150,11 +194,12 @@
     background-color: #4fc08d;
     transition: all 0.15s ease;
     box-sizing: border-box;
-    border: 1px solid #4fc08d;
+    /*border: 1px solid #4fc08d;*/
   }
 
   .doc button.alt {
     color: #42b983;
     background-color: transparent;
+    margin: 0;
   }
 </style>
