@@ -84,10 +84,9 @@
         var audio =  document.getElementsByTagName('audio')[0]
         audio.pause()
         this.musicStatus = 'pause'
-        console.log(audio.currentTime)
         var currentTime = audio.currentTime
         var duration = audio.duration
-        console.log(duration)
+
       },
       play() {
         var audio =  document.getElementsByTagName('audio')[0]
