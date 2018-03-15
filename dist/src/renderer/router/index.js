@@ -21,7 +21,7 @@ exports.default = new _vueRouter2.default({
     path: '/',
 
     component: require('@/components/LandingPage').default,
-    children: [{ path: '', component: require('@/components/musicList/musicList').default }]
+    children: [{ path: '', component: require('@/components/musicList/musicList').default }, { path: 'mySongList', component: require('@/components/musicList/mySongList').default }]
   }, {
     path: '*',
     redirect: '/'

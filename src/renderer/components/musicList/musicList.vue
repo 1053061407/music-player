@@ -8,13 +8,13 @@
     </div>
     <el-table
       :data="musicList"
-      stripe
-      style="width: 100%" v-show="musicList.length!==0">
+      highlight-current-row: false
+      style="width: 100%;background: #2c2c2c" v-show="musicList.length!==0" >
       <el-table-column
         label="歌曲名"
         width="180">
         <template slot-scope="scope">
-          <el-button  size="small" type="text" style='color: #42b983' @click="playMusic(scope.row.id,scope.row.name,scope.row.artists[0].name)">{{scope.row.name}}
+          <el-button  size="small" type="text"  @click="playMusic(scope.row.id,scope.row.name,scope.row.artists[0].name)">{{scope.row.name}}
           </el-button>
         </template>
       </el-table-column>
@@ -22,14 +22,14 @@
         label="歌手"
         width="180">
         <template slot-scope="scope">
-          <el-button  size="small" type="text" style='color: #42b983' @click="handleCancelTop(scope.row.id,scope.row)">{{scope.row.artists[0].name}}
+          <el-button  size="small" type="text"  @click="handleCancelTop(scope.row.id,scope.row)">{{scope.row.artists[0].name}}
           </el-button>
         </template>
       </el-table-column>
       <el-table-column
         label="专辑">
         <template slot-scope="scope">
-          <el-button  size="small" type="text" style='color: #42b983' @click="handleCancelTop(scope.row.id,scope.row)">{{scope.row.album.name}}
+          <el-button  size="small" type="text"  @click="handleCancelTop(scope.row.id,scope.row)">{{scope.row.album.name}}
           </el-button>
         </template>
       </el-table-column>
@@ -69,7 +69,7 @@
     },
     methods: {
       setBgc() {
-        var cssText = 'background:#000;border: 1px solid #4fc08d;'
+        var cssText = 'border: 1px solid #fff;'
         var button = document.getElementsByClassName('alt')
         if(this.menu == '网易') {
           var button = button[0];
@@ -121,6 +121,7 @@
           }
           obj.musicUrl = this.musicUrl
           this.$emit('input', obj)
+          console.log(obj)
         })
         this.status = 'play';
         this.songName = songName;
@@ -135,5 +136,31 @@
   }
 </script>
 <style>
+  #wrapper {
+    height: 80%;
+    overflow-y: scroll;
+    clear: both;
+    padding-right: 50px;
+  }
+  #wrapper::-webkit-scrollbar {
+    background: transparent;
+    width: 0.4rem;
+  }
+  #wrapper:hover::-webkit-scrollbar-track {
+     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+   }
 
+  #wrapper:hover::-webkit-scrollbar-thumb {
+     -webkit-box-shadow: inset 0 0 6px #6f7180;
+     border-radius: 0.2rem;
+   }
+  .el-table th, .el-table tr{
+    background-color: #2c2c2c;
+  }
+  .doc {
+    margin-top: 10px;
+  }
+  .alt {
+    width: 80px;
+  }
 </style>

@@ -25,7 +25,7 @@
       <span>{{currentTime}}</span>/<span>{{duration}}</span>
     </div>
     <div>
-      <audio :src="musicUrl" autoplay></audio>
+      <audio :src="url" autoplay></audio>
     </div>
   </div>
 </template>
@@ -37,21 +37,23 @@
     },
     props: {
       musicUrl: '',
-      status: '',
       singer: '',
-      songName: ''
+      songName: '',
+      status: ''
     },
     data() {
       return {
         musicStatus: this.status,
         canvas: '',
         currentTime: '00:00',
-        duration: '00:00'
+        duration: '00:00',
+        url: ''
       }
     },
     watch: {
-      status(val) {
-        this.musicStatus = val;//新增对prop的status的watch，监听变更并同步到musicStatus上
+      musicUrl(val) {
+        this.url = val;
+        this.musicStatus = this.status;
         if(this.musicStatus == 'play') {
           this.move()
         }

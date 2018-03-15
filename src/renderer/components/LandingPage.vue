@@ -1,11 +1,15 @@
 <template>
   <div id="root">
-    <div>
-      <el-button  class='button' type="text" size="medium">快速搜索</el-button>
-      <el-button  class='button' type="text" size="medium" >我的歌单</el-button>
+    <div class="menu">
+      <router-link to="/">
+        <el-button  class='button' type="text" size="medium">快速搜索</el-button>
+      </router-link>
+      <router-link to="/mySongList">
+        <el-button  class='button' type="text" size="medium" >我的歌单</el-button>
+      </router-link>
     </div>
     <router-view v-model="obj"></router-view>
-    <controlBtn v-bind="obj"></controlBtn>
+    <controlBtn :musicUrl='obj.musicUrl' :singer='obj.singer' :songName="obj.songName" :status="obj.status"></controlBtn>
   </div>
 </template>
 
@@ -19,10 +23,15 @@
         // obj用来存储从musicList传来的值，然后通过父组件来传递给兄弟组件，也就是controlBtn组件
         obj: {
           musicUrl: '',
-          status: 'pause',
+          singer: '',
           songName: '',
-          singer: ''
+          status: 'pause'
         }
+      }
+    },
+    watch: {
+      obj(val) {
+        console.log(this.obj)
       }
     }
   }
@@ -35,6 +44,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    background-color: #2c2c2c ;
   }
 
   body { font-family: 'Source Sans Pro', sans-serif; }
@@ -44,56 +54,19 @@
     padding: 60px 80px;
     width: 100vw;
   }
-
-  #wrapper {
-    height: 90%;
-    overflow-y: scroll;
-    clear: both;
-    padding-right: 50px;
+  .menu {
+    margin-bottom: 1rem;
   }
-
-  input {
-    width:100%;
-    height: 40px;
-    padding: 0 15px;
-    background-color: #fff;
-    background-image: none;
-    border-radius: 4px;
-    border: 1px solid #dcdfe6;
-    font-size: inherit;
-  }
-
-  main {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  main > div { flex-basis: 50%; }
-
-  .doc p {
-    color: black;
-    margin-bottom: 10px;
-  }
-
-  .doc button {
-    font-size: .8em;
-    cursor: pointer;
-    outline: none;
-    padding: 0.75em 2em;
-    display: inline-block;
+  .el-button {
     color: #fff;
-    background-color: #4fc08d;
-    transition: all 0.15s ease;
-    box-sizing: border-box;
-    /*border: 1px solid #4fc08d;*/
-  }
-
-  .doc button.alt {
-    color: #42b983;
-    background-color: transparent;
-    margin: 0;
   }
   .button {
-    color: #42b983;
+    width: 5rem;
+  }
+  .el-table tr {
+    background-color: #2c2c2c;
+  }
+  .el-table--enable-row-hover .el-table__body tr:hover>td {
+  background-color: #2c2c2c;
   }
 </style>
