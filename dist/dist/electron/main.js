@@ -1966,7 +1966,7 @@ module.exports = function (modules) {
 
     function createWindow() {
       mainWindow = new __WEBPACK_IMPORTED_MODULE_0_electron__["BrowserWindow"]({
-        height: 600,
+        height: 700,
         useContentSize: true,
         width: 1000
       });

@@ -103,6 +103,7 @@
           }
           fetchMusicList(this.song,this.alias).then(response => {
             this.musicList = response.data.songList;
+            console.log(this.musicList)
           })
         }
       },
@@ -112,10 +113,10 @@
             this.musicUrl = response.data.url;
           }
           else if(this.menu == '虾米') {
-            var song
+            var song;
             for(song of this.musicList) {
               if(song.id == id) {
-                this.musicUrl = song.file
+                this.musicUrl = song.file;
               }
             }
           }

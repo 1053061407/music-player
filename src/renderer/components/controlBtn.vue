@@ -18,8 +18,9 @@
       <div style="padding-left: 100px">
         <span>{{songName}}</span>&nbsp;&nbsp;<span>{{singer}}</span>
       </div>
-      <canvas id="mycanvas" width="450" height="50">
-      </canvas>
+      <el-slider v-model="currentTime1" v-bind:max="duration1" @change="replay"></el-slider>
+      <!--<canvas id="mycanvas" width="450" height="50">-->
+      <!--</canvas>-->
     </div>
     <div id='time'>
       <span>{{currentTime}}</span>/<span>{{duration}}</span>
@@ -32,9 +33,9 @@
 <script>
   export default {
     name: 'controlBtn',
-    mounted() {
-      this.drawLine()
-    },
+//    mounted() {
+//      this.drawLine()
+//    },
     props: {
       musicUrl: '',
       singer: '',
@@ -47,41 +48,25 @@
         canvas: '',
         currentTime: '00:00',
         duration: '00:00',
-        url: ''
+        url: '',
+        currentTime1: 0,
+        duration1: 10
       }
+    },
+    computed: {
+
     },
     watch: {
       musicUrl(val) {
         this.url = val;
         this.musicStatus = this.status;
         if(this.musicStatus == 'play') {
-          this.move()
+          this.move1();
+//          this.move()
         }
       }
     },
     methods: {
-      drawCircle(ctx,x,y) {
-        ctx.beginPath();
-        ctx.arc(x, y, 6, 0, 360);
-        ctx.closePath();
-        //ctx.fillStyle = 'rgba(0,0,0,' + (parseInt(Math.random() * 100) / 100) + ')'
-        ctx.fillStyle = 'gray'
-        ctx.fill();
-      },
-      drawLine() {
-        var audio =  document.getElementsByTagName('audio')[0]
-        var canvas = document.getElementsByTagName('canvas')[0]
-        var ctx = canvas.getContext('2d');
-        ctx.beginPath()
-        ctx.strokeStyle='#000000';
-        ctx.lineWidth=8;
-        ctx.moveTo(50,20);
-        ctx.lineTo(450,20);
-        ctx.lineCap='round';
-        ctx.stroke();
-        var x = 50, y =20;
-        this.drawCircle(ctx,x,y)
-      },
       pause() {
         var audio =  document.getElementsByTagName('audio')[0]
         audio.pause()
@@ -95,24 +80,69 @@
         this.musicStatus = 'play'
         audio.play()
       },
-      move() {
-        var audio =  document.getElementsByTagName('audio')[0]
-        var canvas = document.getElementsByTagName('canvas')[0]
-        var ctx = canvas.getContext('2d')
-        var currentTime = audio.currentTime
-        var duration  = audio.duration
-        var width = canvas.width
-        var moveLengthX = currentTime*(width-50)/duration
-        var x = moveLengthX + 50
+      move1() {
+        var audio =  document.getElementsByTagName('audio')[0];
+        var currentTime = audio.currentTime;
+        var duration  = audio.duration;
+        this.duration1 = duration;
+        this.currentTime1 = currentTime;
         var currentSecond = Math.floor(currentTime%60)
         var currentMinute = Math.floor(currentTime/60)
         this.currentTime = currentMinute + ':' + currentSecond
         var durationSecond = Math.floor(duration%60)
         var durationMinute = Math.floor(duration/60)
         this.duration = durationMinute + ':' + durationSecond
-        this.drawCircle(ctx,x,20)
-        setTimeout(this.move,10)
+//        console.log(this.currentTime1);
+        setTimeout(this.move1,10);
+      },
+      replay(time) {
+        console.log(time)
+        var audio =  document.getElementsByTagName('audio')[0];
+        audio.currentTime = time
+        this.musicStatus = 'play'
+        audio.play()
       }
+      // canvas绘制的进度条动画
+//      move() {
+//        var audio =  document.getElementsByTagName('audio')[0]
+//        var canvas = document.getElementsByTagName('canvas')[0]
+//        var ctx = canvas.getContext('2d')
+//        var currentTime = audio.currentTime
+//        var duration  = audio.duration
+//        var width = canvas.width
+//        var moveLengthX = currentTime*(width-50)/duration
+//        var x = moveLengthX + 50
+//        var currentSecond = Math.floor(currentTime%60)
+//        var currentMinute = Math.floor(currentTime/60)
+//        this.currentTime = currentMinute + ':' + currentSecond
+//        var durationSecond = Math.floor(duration%60)
+//        var durationMinute = Math.floor(duration/60)
+//        this.duration = durationMinute + ':' + durationSecond
+//        this.drawCircle(ctx,x,20)
+//        setTimeout(this.move,10)
+//      }
+//      drawCircle(ctx,x,y) {
+//        ctx.beginPath();
+//        ctx.arc(x, y, 6, 0, 360);
+//        ctx.closePath();
+//        //ctx.fillStyle = 'rgba(0,0,0,' + (parseInt(Math.random() * 100) / 100) + ')'
+//        ctx.fillStyle = 'gray'
+//        ctx.fill();
+//      },
+//      drawLine() {
+//        var audio =  document.getElementsByTagName('audio')[0]
+//        var canvas = document.getElementsByTagName('canvas')[0]
+//        var ctx = canvas.getContext('2d');
+//        ctx.beginPath()
+//        ctx.strokeStyle='#000000';
+//        ctx.lineWidth=8;
+//        ctx.moveTo(50,20);
+//        ctx.lineTo(450,20);
+//        ctx.lineCap='round';
+//        ctx.stroke();
+//        var x = 50, y =20;
+//        this.drawCircle(ctx,x,y)
+//      },
     }
   }
 </script>
@@ -131,10 +161,19 @@
   }
   #time {
     margin-top: 50px;
-    margin-left: 40px;
+    margin-left: 30px;
   }
   #song {
     width: 450px;
     margin-top: 20px;
+  }
+  .el-slider {
+    margin-left: 30px;
+  }
+  .el-slider__bar {
+    background-color: #707070;
+  }
+  .el-slider__button {
+    border: 2px solid #2c2c2c;
   }
 </style>

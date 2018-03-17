@@ -19,7 +19,7 @@ var _store2 = _interopRequireDefault(_store);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var service = _axios2.default.create({
-  baseURL: 'http://localhost:8001',
+  baseURL: 'http://120.79.89.80:8001',
   timeout: 15000 });
 
 service.interceptors.request.use(function (config) {

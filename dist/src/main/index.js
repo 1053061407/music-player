@@ -11,7 +11,7 @@ var winURL = process.env.NODE_ENV === 'development' ? 'http://localhost:9080' : 
 
 function createWindow() {
   mainWindow = new _electron.BrowserWindow({
-    height: 600,
+    height: 700,
     useContentSize: true,
     width: 1000
   });
