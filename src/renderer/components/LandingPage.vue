@@ -8,7 +8,7 @@
         <el-button  class='button' type="text" size="medium" >我的歌单</el-button>
       </router-link>
     </div>
-    <router-view v-model="obj"></router-view>
+    <router-view v-model="obj" style="height: 80%;"></router-view>
     <controlBtn :musicUrl='obj.musicUrl' :singer='obj.singer' :songName="obj.songName" :status="obj.status"></controlBtn>
   </div>
 </template>

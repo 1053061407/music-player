@@ -1,5 +1,5 @@
 <template>
-  <div class="root">
+  <div id="controlBtn-root">
     <div id='playbutton'>
       <svg class="icon" aria-hidden="true">
         <use xlink:href="#icon-yduishangyiqu"></use>
@@ -46,11 +46,11 @@
       return {
         musicStatus: this.status,
         canvas: '',
-        currentTime: '00:00',
-        duration: '00:00',
+        currentTime: '00:00',  // 是用来在界面上显示当前播放到的时间，是字符串。
+        duration: '00:00',    // 是用来在界面上显示歌曲总时长的，也是字符串。
         url: '',
-        currentTime1: 0,
-        duration1: 10
+        currentTime1: 0,  //  是当前播放到的时间在滑块上的映射值，是Number
+        duration1: 10  //  是歌曲总时长在滑块上的映射值，是Number
       }
     },
     computed: {
@@ -61,7 +61,7 @@
         this.url = val;
         this.musicStatus = this.status;
         if(this.musicStatus == 'play') {
-          this.move1();
+          this.sliderMove();
 //          this.move()
         }
       }
@@ -80,7 +80,7 @@
         this.musicStatus = 'play'
         audio.play()
       },
-      move1() {
+      sliderMove() {
         var audio =  document.getElementsByTagName('audio')[0];
         var currentTime = audio.currentTime;
         var duration  = audio.duration;
@@ -93,10 +93,9 @@
         var durationMinute = Math.floor(duration/60)
         this.duration = durationMinute + ':' + durationSecond
 //        console.log(this.currentTime1);
-        setTimeout(this.move1,10);
+        setTimeout(this.sliderMove,10);
       },
       replay(time) {
-        console.log(time)
         var audio =  document.getElementsByTagName('audio')[0];
         audio.currentTime = time
         this.musicStatus = 'play'
@@ -148,7 +147,7 @@
 </script>
 
 <style>
-  .root {
+  .controlBtn-root {
     /*margin-top: 50px;*/
     height: 100px;
     /*background: #000010;*/

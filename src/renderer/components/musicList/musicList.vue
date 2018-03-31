@@ -33,6 +33,15 @@
           </el-button>
         </template>
       </el-table-column>
+      <el-table-column align="center"
+        label="">
+        <template slot-scope="scope">
+          <el-tooltip class="item" effect="light" content="添加到我的歌单" placement="bottom">
+            <el-button  size="small" type="text"  @click="addToMyMusicList(scope.row.id,scope.row.name,scope.row.artists[0].name)"><i class="el-icon-plus"></i>
+            </el-button>
+          </el-tooltip>
+        </template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
@@ -40,6 +49,9 @@
   import { fetchMusicList, fetchMusicUrl } from '../../api/fetchMusic'
   export default {
     name: 'landing-page',
+    props: {
+
+    },
     data () {
       return {
         song: '',
@@ -132,11 +144,22 @@
           songName: this.songName,
           singer: this.singer
         }
+      },
+      addToMyMusicList(id,name,singer) {
+        var i= localStorage.length;
+        var obj = {
+          id: id,
+          name: name,
+          singer: singer
+        }
+        console.log(localStorage.length)
+        obj = JSON.stringify(obj)
+        localStorage.setItem(i+1, obj);
       }
     }
   }
 </script>
-<style>
+<style lang="scss">
   #wrapper {
     height: 80%;
     overflow-y: scroll;
@@ -155,13 +178,20 @@
      -webkit-box-shadow: inset 0 0 6px #6f7180;
      border-radius: 0.2rem;
    }
-  .el-table th, .el-table tr{
+  .el-table th, .el-table tr {
     background-color: #2c2c2c;
   }
+
   .doc {
     margin-top: 10px;
   }
   .alt {
     width: 80px;
+  }
+  .el-icon-plus {
+    display: none;
+  }
+  .el-table__row:hover .el-icon-plus {
+    display: inline-block;
   }
 </style>
