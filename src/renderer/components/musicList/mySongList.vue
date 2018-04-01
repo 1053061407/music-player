@@ -1,5 +1,5 @@
 <template>
-  <div class="mySongList-root">
+  <div id="mySongList-root">
     <el-table
       :data="musicList"
       highlight-current-row: false
@@ -106,5 +106,23 @@
 <style lang="scss">
   .el-table th, .el-table tr {
     background-color: #2c2c2c;
+  }
+  #mySongList-root {
+    height: 80%;
+    overflow-y: scroll;
+    clear: both;
+    padding-right: 50px;
+  }
+  #mySongList-root::-webkit-scrollbar {
+    background: transparent;
+    width: 0.4rem;
+  }
+  #mySongList-root:hover::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  }
+
+  #mySongList-root:hover::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 6px #6f7180;
+    border-radius: 0.2rem;
   }
 </style>

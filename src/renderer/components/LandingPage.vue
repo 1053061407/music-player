@@ -46,6 +46,9 @@
     padding: 0;
     background-color: #2c2c2c ;
   }
+  .el-message {
+    background-color: initial;
+  }
 
   body { font-family: 'Source Sans Pro', sans-serif; }
 

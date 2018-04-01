@@ -76,9 +76,10 @@
 
       },
       play() {
-        var audio =  document.getElementsByTagName('audio')[0]
-        this.musicStatus = 'play'
-        audio.play()
+        var audio =  document.getElementsByTagName('audio')[0];
+        this.musicStatus = 'play';
+        audio.play();
+
       },
       sliderMove() {
         var audio =  document.getElementsByTagName('audio')[0];
@@ -93,7 +94,11 @@
         var durationMinute = Math.floor(duration/60)
         this.duration = durationMinute + ':' + durationSecond
 //        console.log(this.currentTime1);
+        if(currentTime === duration) {
+          this.musicStatus = 'pause';
+        }
         setTimeout(this.sliderMove,10);
+
       },
       replay(time) {
         var audio =  document.getElementsByTagName('audio')[0];

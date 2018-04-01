@@ -20,14 +20,15 @@
       </el-table-column>
       <el-table-column
         label="歌手"
-        width="180">
+        width="120">
         <template slot-scope="scope">
           <el-button  size="small" type="text"  @click="handleCancelTop(scope.row.id,scope.row)">{{scope.row.artists[0].name}}
           </el-button>
         </template>
       </el-table-column>
       <el-table-column
-        label="专辑">
+        label="专辑"
+        width="130">
         <template slot-scope="scope">
           <el-button  size="small" type="text"  @click="handleCancelTop(scope.row.id,scope.row)">{{scope.row.album.name}}
           </el-button>
@@ -36,8 +37,8 @@
       <el-table-column align="center"
         label="">
         <template slot-scope="scope">
-          <el-tooltip class="item" effect="light" content="添加到我的歌单" placement="bottom">
-            <el-button  size="small" type="text"  @click="addToMyMusicList(scope.row.id,scope.row.name,scope.row.artists[0].name)"><i class="el-icon-plus"></i>
+          <el-tooltip class="item" effect="light" content="添加到我的歌单" placement="top">
+            <el-button  size="small" type="text" id="add-button" @click="addToMyMusicList(scope.row.id,scope.row.name,scope.row.artists[0].name)"> +
             </el-button>
           </el-tooltip>
         </template>
@@ -154,7 +155,13 @@
         }
         console.log(localStorage.length)
         obj = JSON.stringify(obj)
-        localStorage.setItem(i+1, obj);
+        localStorage.setItem(id, obj);
+        this.$message({
+          showClose: true,
+          message: '添加成功',
+          type: 'success'
+        });
+
       }
     }
   }
@@ -188,10 +195,12 @@
   .alt {
     width: 80px;
   }
-  .el-icon-plus {
+  #add-button {
     display: none;
+    font-size: 20px;
+    padding: 0;
   }
-  .el-table__row:hover .el-icon-plus {
+  .el-table__row:hover #add-button {
     display: inline-block;
   }
 </style>
