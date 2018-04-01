@@ -2000,7 +2000,7 @@ module.exports = function (modules) {
 
   process.env.NODE_ENV = 'development';
 
-  __webpack_require__(18)({ showDevTools: true });
+  __webpack_require__(18)({ showDevTools: false });
 
   __webpack_require__(2).app.on('ready', function () {
     var installExtension = __webpack_require__(30);

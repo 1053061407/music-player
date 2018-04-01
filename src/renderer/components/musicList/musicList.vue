@@ -1,6 +1,6 @@
 <template>
   <div id="wrapper">
-    <el-input placeholder="请输入歌曲名称" v-model="song" @keyup.enter.native="search"></el-input>
+    <el-input placeholder="请输入歌曲名或歌手名" v-model="song" @keyup.enter.native="search"></el-input>
     <div class="doc">
       <el-button class="alt" @click="search" type="text">网易</el-button>
       <el-button class="alt" @click="search" type="text">虾米</el-button>

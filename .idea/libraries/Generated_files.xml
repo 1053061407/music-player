@@ -9,8 +9,9 @@
         <item url="file://$PROJECT_DIR$/dist/src/renderer/main.js" />
         <item url="file://$PROJECT_DIR$/dist/src/renderer/api/fetchMusic.js" />
         <item url="file://$PROJECT_DIR$/dist/src/renderer/assets/font/iconfont.js" />
-        <item url="file://$PROJECT_DIR$/dist/src/renderer/api/xiami.js" />
         <item url="file://$PROJECT_DIR$/dist/src/renderer/api/index.js" />
+        <item url="file://$PROJECT_DIR$/dist/src/renderer/api/xiami.js" />
+        <item url="file://$PROJECT_DIR$/dist/src/main/index.dev.js" />
       </sourceFilesUrls>
     </properties>
     <CLASSES>
@@ -21,8 +22,9 @@
       <root url="file://$PROJECT_DIR$/dist/src/renderer/main.js" />
       <root url="file://$PROJECT_DIR$/dist/src/renderer/api/fetchMusic.js" />
       <root url="file://$PROJECT_DIR$/dist/src/renderer/assets/font/iconfont.js" />
-      <root url="file://$PROJECT_DIR$/dist/src/renderer/api/xiami.js" />
       <root url="file://$PROJECT_DIR$/dist/src/renderer/api/index.js" />
+      <root url="file://$PROJECT_DIR$/dist/src/renderer/api/xiami.js" />
+      <root url="file://$PROJECT_DIR$/dist/src/main/index.dev.js" />
     </CLASSES>
     <SOURCES />
   </library>
