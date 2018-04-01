@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5f70f53e-62b3-45cb-93af-d39612c3858b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Generated_files.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Generated_files.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/dist/electron/main.js" afterPath="$PROJECT_DIR$/dist/dist/electron/main.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/dist/electron/main.js.map" afterPath="$PROJECT_DIR$/dist/dist/electron/main.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/index.dev.js" afterPath="$PROJECT_DIR$/src/main/index.dev.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/renderer/components/musicList/musicList.vue" afterPath="$PROJECT_DIR$/src/renderer/components/musicList/musicList.vue" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -74,7 +69,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="musicList.vue" pinned="false" current-in-tab="true">
+      <file leaf-file-name="musicList.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/renderer/components/musicList/musicList.vue">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="36">
@@ -98,11 +93,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="controlBtn.vue" pinned="false" current-in-tab="false">
+      <file leaf-file-name="controlBtn.vue" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/renderer/components/controlBtn.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1782">
-              <caret line="99" column="39" lean-forward="false" selection-start-line="99" selection-start-column="39" selection-end-line="99" selection-end-column="39" />
+            <state relative-caret-position="-1370">
+              <caret line="20" column="68" lean-forward="true" selection-start-line="20" selection-start-column="68" selection-end-line="20" selection-end-column="68" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
                 <element signature="e#665#671#0" expanded="true" />
@@ -168,11 +163,11 @@
       <find>delFromMyMusicList</find>
       <find>localStorage</find>
       <find>mess</find>
-      <find>add</find>
       <find>replay</find>
       <find>duration1</find>
       <find>sliderMove</find>
       <find>play</find>
+      <find>add</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -375,12 +370,12 @@
       <workItem from="1521974716315" duration="1475000" />
       <workItem from="1522029515908" duration="66000" />
       <workItem from="1522459983774" duration="15889000" />
-      <workItem from="1522575723159" duration="5686000" />
+      <workItem from="1522575723159" duration="6129000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="105792000" />
+    <option name="totallyTimeSpent" value="106235000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="25" width="1440" height="821" extended-state="6" />
@@ -744,28 +739,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/musicList/mySongList.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-54">
-          <caret line="1" column="28" lean-forward="false" selection-start-line="1" selection-start-column="28" selection-end-line="1" selection-end-column="28" />
-          <folding>
-            <element signature="n#style#0;n#el-table#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderer/components/controlBtn.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1782">
-          <caret line="99" column="39" lean-forward="false" selection-start-line="99" selection-start-column="39" selection-end-line="99" selection-end-column="39" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="e#665#671#0" expanded="true" />
-            <element signature="e#671#677#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/renderer/components/LandingPage.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="831">
@@ -815,6 +788,28 @@
           <caret line="2" column="33" lean-forward="false" selection-start-line="2" selection-start-column="33" selection-end-line="2" selection-end-column="33" />
           <folding>
             <element signature="n#style#0;n#el-table#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/components/musicList/mySongList.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-54">
+          <caret line="1" column="28" lean-forward="false" selection-start-line="1" selection-start-column="28" selection-end-line="1" selection-end-column="28" />
+          <folding>
+            <element signature="n#style#0;n#el-table#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderer/components/controlBtn.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1370">
+          <caret line="20" column="68" lean-forward="true" selection-start-line="20" selection-start-column="68" selection-end-line="20" selection-end-column="68" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="e#665#671#0" expanded="true" />
+            <element signature="e#671#677#0" expanded="true" />
           </folding>
         </state>
       </provider>
