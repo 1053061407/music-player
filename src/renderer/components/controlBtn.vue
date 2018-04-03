@@ -63,13 +63,12 @@
         <svg class="icon" aria-hidden="true" v-popover:popover4 >
           <use xlink:href="#icon-liebiao" style="font-color:#cdcdcd"></use>
         </svg>
-        <svg class="icon" aria-hidden="true" >
-          <use xlink:href="#icon-danquxunhuan1" style="font-color:#cdcdcd"></use>
-        </svg>
-        <svg class="icon" aria-hidden="true" >
+        <svg class="icon" aria-hidden="true" v-if="circulation" @click='singlePlay'>
           <use xlink:href="#icon-xunhuan" style="font-color:#cdcdcd"></use>
         </svg>
-        
+        <svg class="icon" aria-hidden="true" v-else @click='circlePlay'>
+          <use xlink:href="#icon-danquxunhuan1" style="font-color:#cdcdcd"></use>
+        </svg>
       </div>
       <span>{{currentTime}}</span>/<span>{{duration}}</span>
     </div>
@@ -101,7 +100,8 @@
         songName1: '',
         currentTime1: 0,  //  是当前播放到的时间在滑块上的映射值，是Number
         duration1: 10,  //  是歌曲总时长在滑块上的映射值，是Number
-        playList: []  // 播放列表
+        playList: [],  // 播放列表,
+        circulation: true  // 列表循环
       }
     },
     computed: {
@@ -121,11 +121,46 @@
       }
     },
     methods: {
+      singlePlay() {
+        this.circulation = false;
+      },
+      circlePlay() {
+        this.circulation = true;
+      },
       playbefore() {
+        var index = this.playList.findIndex(item => item.url === this.url);
+        console.log(index)
+        if(index>0) {
+          this.musicStatus = 'play'
+          this.url = this.playList[index-1].url;
+          this.songName1 = this.playList[index-1].songName;
+          this.singer1 = this.playList[index-1].singer;
+        }
+        if(index === 0) {
+          this.musicStatus = 'play'
+          index = this.playList.length-1;
+          this.url = this.playList[index].url;
+          this.songName1 = this.playList[index].songName;
+          this.singer1 = this.playList[index].singer;
+        }
         
       },
       playafter() {
-
+        var index = this.playList.findIndex(item => item.url === this.url);
+        console.log(index)
+        
+        if(index!==-1 && index<this.playList.length-1) {
+          this.musicStatus = 'play'
+          this.url = this.playList[index+1].url;
+          this.songName1 = this.playList[index+1].songName;
+          this.singer1 = this.playList[index+1].singer;
+        }
+        if(index === this.playList.length-1 || index === 0) {
+          this.musicStatus = 'play';
+          this.url = this.playList[0].url;
+          this.songName1 = this.playList[0].songName;
+          this.singer1 = this.playList[0].singer;
+        }
       },
       playMusic(musicUrl,songName,singer) {
         this.url = musicUrl;
@@ -138,6 +173,7 @@
         obj.singer = this.singer;
         obj.songName = this.songName;
         this.playList.push(obj)
+        console.log(this.playList)
       },
       pause() {
         var audio =  document.getElementsByTagName('audio')[0]
@@ -168,6 +204,13 @@
 //        console.log(this.currentTime1);
         if(currentTime === duration) {
           this.musicStatus = 'pause';
+          if(this.circulation=== true) {
+            this.playafter();
+          }
+          else {
+            this.musicStatus = 'play';
+            audio.src = this.url;
+          }
         }
         setTimeout(this.sliderMove,10);
 
@@ -178,8 +221,9 @@
         this.musicStatus = 'play'
         audio.play()
       },
-      delFromPlayList() {
-
+      delFromPlayList(index) {
+        console.log(index);
+        this.playList.splice(index,1);
       }
       // canvas绘制的进度条动画
 //      move() {
