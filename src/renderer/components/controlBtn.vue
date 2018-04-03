@@ -1,7 +1,7 @@
 <template>
   <div id="controlBtn-root">
     <div id='playbutton'>
-      <svg class="icon" aria-hidden="true">
+      <svg class="icon" aria-hidden="true" @click='playbefore'>
         <use xlink:href="#icon-yduishangyiqu"></use>
       </svg>
       <svg class="icon" aria-hidden="true" v-if="this.musicStatus=='pause'" @click="play">
@@ -10,19 +10,67 @@
       <svg class="icon" aria-hidden="true"  v-else @click="pause">
         <use xlink:href="#icon-bofang"></use>
       </svg>
-      <svg class="icon" aria-hidden="true">
+      <svg class="icon" aria-hidden="true" @click='playafter'>
         <use xlink:href="#icon-yduixiayiqu"></use>
       </svg>
     </div>
     <div id='song'>
       <div style="padding-left: 100px">
-        <span>{{songName}}</span>&nbsp;&nbsp;<span>{{singer}}</span>
+        <span>{{songName1}}</span>&nbsp;&nbsp;<span>{{singer1}}</span>
       </div>
       <el-slider v-model="currentTime1" v-bind:max="duration1" @change="replay"></el-slider>
       <!--<canvas id="mycanvas" width="450" height="50">-->
       <!--</canvas>-->
     </div>
     <div id='time'>
+      <div>
+        <el-popover
+        ref="popover4"
+        placement="top-start"
+        width="600"
+        trigger="click"
+        >
+        <el-table
+      :data="playList"
+      highlight-current-row: false
+      style="width: 100%;background: #2c2c2c" v-show="playList.length!==0" >
+      <el-table-column
+        label="歌曲名"
+        width="180">
+        <template slot-scope="scope">
+          <el-button  size="small" type="text"  @click="playMusic(scope.row.url,scope.row.songName,scope.row.singer)">{{scope.row.songName}}
+          </el-button>
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="歌手"
+        width="180">
+        <template slot-scope="scope">
+          <el-button  size="small" type="text">{{scope.row.singer}}
+          </el-button>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" >
+        <template slot-scope="scope">
+          <el-tooltip class="item" effect="light" content="移除" placement="bottom">
+            <el-button  size="small" type="text"  @click="delFromPlayList(scope.$index)"><i class="el-icon-delete"></i>
+            </el-button>
+          </el-tooltip>
+        </template>
+      </el-table-column>
+    </el-table>
+        </el-popover>
+        <svg class="icon" aria-hidden="true" v-popover:popover4 >
+          <use xlink:href="#icon-liebiao" style="font-color:#cdcdcd"></use>
+        </svg>
+        <svg class="icon" aria-hidden="true" >
+          <use xlink:href="#icon-danquxunhuan1" style="font-color:#cdcdcd"></use>
+        </svg>
+        <svg class="icon" aria-hidden="true" >
+          <use xlink:href="#icon-xunhuan" style="font-color:#cdcdcd"></use>
+        </svg>
+        
+      </div>
       <span>{{currentTime}}</span>/<span>{{duration}}</span>
     </div>
     <div>
@@ -49,8 +97,11 @@
         currentTime: '00:00',  // 是用来在界面上显示当前播放到的时间，是字符串。
         duration: '00:00',    // 是用来在界面上显示歌曲总时长的，也是字符串。
         url: '',
+        singer1: '',
+        songName1: '',
         currentTime1: 0,  //  是当前播放到的时间在滑块上的映射值，是Number
-        duration1: 10  //  是歌曲总时长在滑块上的映射值，是Number
+        duration1: 10,  //  是歌曲总时长在滑块上的映射值，是Number
+        playList: []  // 播放列表
       }
     },
     computed: {
@@ -59,14 +110,35 @@
     watch: {
       musicUrl(val) {
         this.url = val;
+        this.songName1 = this.songName;
+        this.singer1 = this.singer;
         this.musicStatus = this.status;
         if(this.musicStatus == 'play') {
           this.sliderMove();
+          this.addToPlayList();
 //          this.move()
         }
       }
     },
     methods: {
+      playbefore() {
+        
+      },
+      playafter() {
+
+      },
+      playMusic(musicUrl,songName,singer) {
+        this.url = musicUrl;
+        this.songName1 = songName;
+        this.singer1 = singer;
+      },
+      addToPlayList() {
+        var obj = {};
+        obj.url = this.url;
+        obj.singer = this.singer;
+        obj.songName = this.songName;
+        this.playList.push(obj)
+      },
       pause() {
         var audio =  document.getElementsByTagName('audio')[0]
         audio.pause()
@@ -105,6 +177,9 @@
         audio.currentTime = time
         this.musicStatus = 'play'
         audio.play()
+      },
+      delFromPlayList() {
+
       }
       // canvas绘制的进度条动画
 //      move() {
@@ -151,11 +226,15 @@
   }
 </script>
 
-<style>
+<style lang='scss'>
   .controlBtn-root {
     /*margin-top: 50px;*/
     height: 100px;
     /*background: #000010;*/
+  }
+  .el-popover {
+    height: 300px;
+    background-color: #2c2c2c
   }
   #playbutton, #mycanvas, #time, #song  {
     float: left;
@@ -164,7 +243,7 @@
     margin-top: 40px;
   }
   #time {
-    margin-top: 50px;
+    margin-top: 6px;
     margin-left: 30px;
   }
   #song {
@@ -173,11 +252,11 @@
   }
   .el-slider {
     margin-left: 30px;
-  }
-  .el-slider__bar {
+    .el-slider__bar {
     background-color: #707070;
-  }
-  .el-slider__button {
-    border: 2px solid #2c2c2c;
+    }
+    .el-slider__button {
+      border: 2px solid #2c2c2c;
+    }
   }
 </style>

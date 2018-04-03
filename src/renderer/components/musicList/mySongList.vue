@@ -16,13 +16,13 @@
         label="歌手"
         width="180">
         <template slot-scope="scope">
-          <el-button  size="small" type="text"  @click="handleCancelTop(scope.row.id,scope.row)">{{scope.row.singer}}
+          <el-button  size="small" type="text">{{scope.row.singer}}
           </el-button>
         </template>
       </el-table-column>
       <el-table-column align="center" >
         <template slot-scope="scope">
-          <el-tooltip class="item" effect="light" content="添加到我的歌单" placement="bottom">
+          <el-tooltip class="item" effect="light" content="移除" placement="bottom">
             <el-button  size="small" type="text"  @click="delFromMyMusicList(scope.$index)"><i class="el-icon-delete"></i>
             </el-button>
           </el-tooltip>

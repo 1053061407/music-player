@@ -9,7 +9,7 @@
     <el-table
       :data="musicList"
       highlight-current-row: false
-      style="width: 100%;background: #2c2c2c" v-show="musicList.length!==0" >
+      style="width: 100%;background: #2c2c2c" v-show="musicList.length!==0">
       <el-table-column
         label="歌曲名"
         width="180">
@@ -22,7 +22,7 @@
         label="歌手"
         width="120">
         <template slot-scope="scope">
-          <el-button  size="small" type="text"  @click="handleCancelTop(scope.row.id,scope.row)">{{scope.row.artists[0].name}}
+          <el-button  size="small" type="text">{{scope.row.artists[0].name}}
           </el-button>
         </template>
       </el-table-column>
@@ -30,17 +30,17 @@
         label="专辑"
         width="130">
         <template slot-scope="scope">
-          <el-button  size="small" type="text"  @click="handleCancelTop(scope.row.id,scope.row)">{{scope.row.album.name}}
+          <el-button  size="small" type="text" >{{scope.row.album.name}}
           </el-button>
         </template>
       </el-table-column>
       <el-table-column align="center"
         label="">
         <template slot-scope="scope">
-          <el-tooltip class="item" effect="light" content="添加到我的歌单" placement="top">
+          <a href=# title="添加到歌单">
             <el-button  size="small" type="text" id="add-button" @click="addToMyMusicList(scope.row.id,scope.row.name,scope.row.artists[0].name)"> +
             </el-button>
-          </el-tooltip>
+          </a>
         </template>
       </el-table-column>
     </el-table>
@@ -48,6 +48,7 @@
 </template>
 <script>
   import { fetchMusicList, fetchMusicUrl } from '../../api/fetchMusic'
+  import { mapGetters } from 'vuex'
   export default {
     name: 'landing-page',
     props: {
@@ -58,13 +59,27 @@
         song: '',
         menu: '网易',
         alias: 'netease',  //与网易，虾米，qq音乐进行中英文映射
-        musicList: [],
         musicId: '',
         musicUrl: '',
         status: 'pause',
         songName: '',
         singer: ''
       }
+    },
+    computed: {
+      ...mapGetters([
+        'musicList',
+      ]),
+      // song: {
+      // // getter
+      //   get: function () {
+      //     return this.$store.state.song
+      //   },
+      // // setter
+      //   set: function (newValue) {
+      //    this.$store.commit('setSong', this.song)
+      //   }
+      // }
     },
     watch: {
       menu(val) {
@@ -97,13 +112,19 @@
           button.style.cssText = cssText;
         }
       },
-      open (link) {
-        this.$electron.shell.openExternal(link);
-      },
       search(e) {
-        if(e.target.innerHTML) {
+        var menu ;
+        if(e.target.tagName!=='INPUT') {
+          menu = e.target.innerHTML;
+          if(menu=='网易' || menu=='虾米' || menu=='QQ音乐') {
+          console.log('haha')
           this.menu = e.target.innerHTML;
-        }
+          }
+          else {
+            console.log('xixi')
+            this.menu = e.target.children[0].innerHTML;
+          }
+        } 
         if(this.song !== '') {
           if(this.menu == '网易') {
             this.alias = 'netease';
@@ -115,7 +136,8 @@
             this.alias = 'qq';
           }
           fetchMusicList(this.song,this.alias).then(response => {
-            this.musicList = response.data.songList;
+            // this.musicList = response.data.songList;
+            this.$store.commit('setMusicList', response.data.songList)
             console.log(this.musicList)
           })
         }
@@ -158,7 +180,7 @@
         localStorage.setItem(id, obj);
         this.$message({
           showClose: true,
-          message: '添加成功',
+          message: '添加歌单成功',
           type: 'success'
         });
 
