@@ -53,7 +53,7 @@
       <el-table-column align="center" >
         <template slot-scope="scope">
           <el-tooltip class="item" effect="light" content="移除" placement="bottom">
-            <el-button  size="small" type="text"  @click="delFromPlayList(scope.$index)"><i class="el-icon-delete"></i>
+            <el-button  size="small" type="text"  @click="delFromPlayList(scope.$index,scope.row.songName,scope.row.singer)"><i class="el-icon-delete"></i>
             </el-button>
           </el-tooltip>
         </template>
@@ -78,6 +78,7 @@
   </div>
 </template>
 <script>
+  import db from '../db/datastore'
   export default {
     name: 'controlBtn',
 //    mounted() {
@@ -100,15 +101,22 @@
         songName1: '',
         currentTime1: 0,  //  是当前播放到的时间在滑块上的映射值，是Number
         duration1: 10,  //  是歌曲总时长在滑块上的映射值，是Number
-        playList: [],  // 播放列表,
         circulation: true  // 列表循环
       }
     },
     computed: {
-
+      // playList() {
+      //   return db.get('playList').value();
+      // }
+      playList: {
+        get: function () {
+          return db.get('playList').value();
+        }
+      }
     },
     watch: {
       musicUrl(val) {
+        console.log(val)
         this.url = val;
         this.songName1 = this.songName;
         this.singer1 = this.singer;
@@ -163,17 +171,26 @@
         }
       },
       playMusic(musicUrl,songName,singer) {
+        this.musicStatus = 'play';
         this.url = musicUrl;
         this.songName1 = songName;
         this.singer1 = singer;
+        this.sliderMove();
       },
       addToPlayList() {
         var obj = {};
         obj.url = this.url;
         obj.singer = this.singer;
         obj.songName = this.songName;
-        this.playList.push(obj)
-        console.log(this.playList)
+        var music = db.get('playList')
+        .find({ singer: this.singer,songName: this.songName })
+        .value()
+        if(!music) {
+          db.get('playList')
+          .push(obj)
+          .write()
+          this.playList.push()
+        }
       },
       pause() {
         var audio =  document.getElementsByTagName('audio')[0]
@@ -221,9 +238,14 @@
         this.musicStatus = 'play'
         audio.play()
       },
-      delFromPlayList(index) {
+      delFromPlayList(index,singer,songName) {
         console.log(index);
         this.playList.splice(index,1);
+        db.get('playList')
+        .remove({singer: singer,songName: songName})
+        .write()
+        // db.unset('playList')
+        // .write()
       }
       // canvas绘制的进度条动画
 //      move() {
@@ -278,7 +300,21 @@
   }
   .el-popover {
     height: 300px;
-    background-color: #2c2c2c
+    background-color: #2c2c2c;
+    overflow-y: scroll;
+    
+    &::-webkit-scrollbar {
+      background: transparent;
+      width: 0.4rem;
+    }
+    &:hover::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+    }
+
+    &:hover::-webkit-scrollbar-thumb {
+      -webkit-box-shadow: inset 0 0 6px #6f7180;
+      border-radius: 0.2rem;
+    }
   }
   #playbutton, #mycanvas, #time, #song  {
     float: left;

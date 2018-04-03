@@ -38,7 +38,7 @@
         label="">
         <template slot-scope="scope">
           <a href=# title="添加到歌单">
-            <el-button  size="small" type="text" id="add-button" @click="addToMyMusicList(scope.row.id,scope.row.name,scope.row.artists[0].name)"> +
+            <el-button  size="small" type="text" id="add-button" @click="addToMyMusicList(scope.row.id,scope.row.name,scope.row.artists[0].name,scope.row.file)"> +
             </el-button>
           </a>
         </template>
@@ -168,12 +168,15 @@
           singer: this.singer
         }
       },
-      addToMyMusicList(id,name,singer) {
+      addToMyMusicList(id,name,singer,url) {
         var i= localStorage.length;
         var obj = {
           id: id,
           name: name,
           singer: singer
+        }
+        if(this.menu == '虾米') { // 如果是虾米的歌曲
+          obj.url = url
         }
         console.log(localStorage.length)
         obj = JSON.stringify(obj)
@@ -194,19 +197,20 @@
     overflow-y: scroll;
     clear: both;
     padding-right: 50px;
-  }
-  #wrapper::-webkit-scrollbar {
-    background: transparent;
-    width: 0.4rem;
-  }
-  #wrapper:hover::-webkit-scrollbar-track {
-     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-   }
+    &::-webkit-scrollbar {
+      background: transparent;
+      width: 0.4rem;
+    }
+    &:hover::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+    }
 
-  #wrapper:hover::-webkit-scrollbar-thumb {
-     -webkit-box-shadow: inset 0 0 6px #6f7180;
-     border-radius: 0.2rem;
-   }
+    &:hover::-webkit-scrollbar-thumb {
+      -webkit-box-shadow: inset 0 0 6px #6f7180;
+      border-radius: 0.2rem;
+    }
+  }
+
   .el-table th, .el-table tr {
     background-color: #2c2c2c;
   }

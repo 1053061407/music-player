@@ -8,7 +8,7 @@
         label="歌曲名"
         width="180">
         <template slot-scope="scope">
-          <el-button  size="small" type="text"  @click="playMusic(scope.row.id,scope.row.name,scope.row.singer)">{{scope.row.name}}
+          <el-button  size="small" type="text"  @click="playMusic(scope.row.id,scope.row.name,scope.row.singer,scope.row.url)">{{scope.row.name}}
           </el-button>
         </template>
       </el-table-column>
@@ -52,9 +52,9 @@
 //        for(var i=localStorage.length - 1 ; i >=0; i--){
 //          localStorage.removeItem(localStorage.key(i));
 //        }
-        for(var i=localStorage.length - 1 ; i >=0; i--) {
-          console.log('第'+ (i+1) +'条数据的键值为：' + localStorage.key(i) +'，数据为：' + localStorage.getItem(localStorage.key(i)));
-        }
+        // for(var i=localStorage.length - 1 ; i >=0; i--) {
+        //   console.log('第'+ (i+1) +'条数据的键值为：' + localStorage.key(i) +'，数据为：' + localStorage.getItem(localStorage.key(i)));
+        // }
 
 
         for(var i=0 ; i <=localStorage.length - 1; i++) {
@@ -63,24 +63,7 @@
         }
         console.log(this.musicList)
       },
-      playMusic(id,songName,singer) {
-        fetchMusicUrl(id, 'netease').then(response => {
-          this.musicUrl = response.data.url;
-//          if(this.menu == '网易') {
-//            this.musicUrl = response.data.url;
-//          }
-//          else if(this.menu == '虾米') {
-//            var song;
-//            for(song of this.musicList) {
-//              if(song.id == id) {
-//                this.musicUrl = song.file;
-//              }
-//            }
-//          }
-          obj.musicUrl = this.musicUrl
-          this.$emit('input', obj)
-          console.log(obj)
-        })
+      playMusic(id,songName,singer,url) {
         this.status = 'play';
         this.songName = songName;
         this.singer = singer;
@@ -89,6 +72,18 @@
           songName: this.songName,
           singer: this.singer
         }
+        if(url) {  //  如果歌曲来自于虾米音乐
+          this.musicUrl = url;
+        }
+        else {  // 如果歌曲来自于网易云音乐
+          console.log('xixixixi')
+          fetchMusicUrl(id, 'netease').then(response => {
+            this.musicUrl = response.data.url;
+          })
+        }
+        obj.musicUrl = this.musicUrl
+        this.$emit('input', obj)
+        console.log(obj) 
       },
       delFromMyMusicList(index) {
         console.log(index)
@@ -112,17 +107,18 @@
     overflow-y: scroll;
     clear: both;
     padding-right: 50px;
-  }
-  #mySongList-root::-webkit-scrollbar {
-    background: transparent;
-    width: 0.4rem;
-  }
-  #mySongList-root:hover::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-  }
 
-  #mySongList-root:hover::-webkit-scrollbar-thumb {
-    -webkit-box-shadow: inset 0 0 6px #6f7180;
-    border-radius: 0.2rem;
+    &::-webkit-scrollbar {
+      background: transparent;
+      width: 0.4rem;
+    }
+    &:hover::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+    }
+
+    &:hover::-webkit-scrollbar-thumb {
+      -webkit-box-shadow: inset 0 0 6px #6f7180;
+      border-radius: 0.2rem;
+    }
   }
 </style>

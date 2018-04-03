@@ -23,21 +23,14 @@
           musicUrl: '',
           singer: '',
           songName: '',
-          status: 'pause',
-          activeName: 'search'
+          status: 'pause'
         }
-      }
-    },
-    watch: {
-      obj(val) {
-        console.log(this.obj)
       }
     },
     methods: {
       handleClick(tab, event) {
         var index = tab.index;
         if(index == 0) {
-          console.log('haha')
           this.$router.push('/');
         }
         else if(index == 1) {
