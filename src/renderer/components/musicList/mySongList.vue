@@ -74,16 +74,16 @@
         }
         if(url) {  //  如果歌曲来自于虾米音乐
           this.musicUrl = url;
+          obj.musicUrl = this.musicUrl
+          this.$emit('input', obj)
         }
         else {  // 如果歌曲来自于网易云音乐
-          console.log('xixixixi')
           fetchMusicUrl(id, 'netease').then(response => {
             this.musicUrl = response.data.url;
+            obj.musicUrl = this.musicUrl
+            this.$emit('input', obj)
           })
         }
-        obj.musicUrl = this.musicUrl
-        this.$emit('input', obj)
-        console.log(obj) 
       },
       delFromMyMusicList(index) {
         console.log(index)
