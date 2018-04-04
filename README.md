@@ -7,7 +7,7 @@
 
 ### 下载
 * [macOS下载](https://download-1256401492.cos.ap-beijing.myqcloud.com/ListenU1.0.dmg)
-* [Windows下载]()
+* [Windows下载](https://download-1256401492.cos.ap-beijing.myqcloud.com/ListenU%20Setup%201.0.0.exe)
 
 ### Build Setup
 
