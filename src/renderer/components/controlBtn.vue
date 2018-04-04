@@ -163,7 +163,7 @@
           this.songName1 = this.playList[index+1].songName;
           this.singer1 = this.playList[index+1].singer;
         }
-        if(index === this.playList.length-1 || index === 0) {
+        if(index === this.playList.length-1) {
           this.musicStatus = 'play';
           this.url = this.playList[0].url;
           this.songName1 = this.playList[0].songName;

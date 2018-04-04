@@ -49,7 +49,6 @@
 <script>
   import { fetchMusicList, fetchMusicUrl } from '../../api/fetchMusic'
   import { mapGetters } from 'vuex'
-import { CLIENT_RENEG_LIMIT } from 'tls';
   export default {
     name: 'landing-page',
     props: {
