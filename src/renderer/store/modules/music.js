@@ -1,15 +1,20 @@
 const music = {
     state: {
       song: '',
-      musicList: []
+      musicList: [],
+      menu: '网易'
     },
   
     mutations: {
-      setMusicList(state, musicList) {
-        state.musicList = musicList
+      setMusicList(state, musicList ) {
+        console.log(musicList)
+        state.musicList = musicList || []
       },
       setSong(state, song) {
         state.song = song
+      },
+      setMenu(state, menu) {
+        state.menu = menu
       }
     }
   }

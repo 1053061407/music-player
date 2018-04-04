@@ -49,6 +49,7 @@
 <script>
   import { fetchMusicList, fetchMusicUrl } from '../../api/fetchMusic'
   import { mapGetters } from 'vuex'
+import { CLIENT_RENEG_LIMIT } from 'tls';
   export default {
     name: 'landing-page',
     props: {
@@ -56,8 +57,8 @@
     },
     data () {
       return {
-        song: '',
-        menu: '网易',
+        // song: '',
+        // menu: '网易',
         alias: 'netease',  //与网易，虾米，qq音乐进行中英文映射
         musicId: '',
         musicUrl: '',
@@ -67,19 +68,29 @@
       }
     },
     computed: {
+       song: {
+      // getter
+        get: function () {
+          // console.log(this);
+          return this.$store.state.music.song
+        },
+      // setter
+        set: function (newValue) {
+         this.$store.commit('setSong', newValue)
+        }
+      },
       ...mapGetters([
-        'musicList',
+        'musicList','menu'
       ]),
-      // song: {
-      // // getter
-      //   get: function () {
-      //     return this.$store.state.song
+      // menu: {
+      //   get: function() {
+      //     return this.$store.state.menu
       //   },
-      // // setter
-      //   set: function (newValue) {
-      //    this.$store.commit('setSong', this.song)
+      //   set: function(newValue) {
+         
       //   }
       // }
+     
     },
     watch: {
       menu(val) {
@@ -93,9 +104,29 @@
       }
     },
     mounted() {
-      this.setBgc()
+      this.setBgc(),
+      this.getalias()
     },
     methods: {
+      test() {
+        // console.log(e.target)
+        console.log(this.$refs.songName.value)
+      },
+      setSong(e) {
+        console.log(e.target)
+        this.$store.commit('setSong',e.target.value)
+      },
+      getalias() {
+        if(this.menu == '网易') {
+            this.alias = 'netease';
+          }
+          else if(this.menu == '虾米') {
+            this.alias = 'xiami';
+          }
+          else {
+            this.alias = 'qq';
+          }
+      },
       setBgc() {
         var cssText = 'border: 1px solid #fff;'
         var button = document.getElementsByClassName('alt')
@@ -117,12 +148,12 @@
         if(e.target.tagName!=='INPUT') {
           menu = e.target.innerHTML;
           if(menu=='网易' || menu=='虾米' || menu=='QQ音乐') {
-          console.log('haha')
-          this.menu = e.target.innerHTML;
+          this.$store.commit('setMenu', e.target.innerHTML)
+          // this.menu = e.target.innerHTML;
           }
           else {
-            console.log('xixi')
-            this.menu = e.target.children[0].innerHTML;
+            this.$store.commit('setMenu', e.target.children[0].innerHTML)
+            // this.menu = e.target.children[0].innerHTML;
           }
         } 
         if(this.song !== '') {
@@ -136,29 +167,16 @@
             this.alias = 'qq';
           }
           fetchMusicList(this.song,this.alias).then(response => {
+            console.log(this.song,this.alias)
             // this.musicList = response.data.songList;
+            console.log(response.data.songList)
             this.$store.commit('setMusicList', response.data.songList)
             console.log(this.musicList)
           })
         }
       },
+      
       playMusic(id,songName,singer) {
-        fetchMusicUrl(id, this.alias).then(response => {
-          if(this.menu == '网易') {
-            this.musicUrl = response.data.url;
-          }
-          else if(this.menu == '虾米') {
-            var song;
-            for(song of this.musicList) {
-              if(song.id == id) {
-                this.musicUrl = song.file;
-              }
-            }
-          }
-          obj.musicUrl = this.musicUrl
-          this.$emit('input', obj)
-          console.log(obj)
-        })
         this.status = 'play';
         this.songName = songName;
         this.singer = singer;
@@ -167,13 +185,31 @@
           songName: this.songName,
           singer: this.singer
         }
+        if(this.menu == '虾米') {
+          var song;
+          for(song of this.musicList) {
+            if(song.id == id) {
+              this.musicUrl = song.file;
+              obj.musicUrl = this.musicUrl
+              this.$emit('input', obj)
+            }
+          }
+        }
+        else {
+          fetchMusicUrl(id, this.alias).then(response => {
+          this.musicUrl = response.data.url;
+          obj.musicUrl = this.musicUrl
+          this.$emit('input', obj)
+          })
+        }
       },
       addToMyMusicList(id,name,singer,url) {
         var i= localStorage.length;
         var obj = {
           id: id,
           name: name,
-          singer: singer
+          singer: singer,
+          alias: this.alias
         }
         if(this.menu == '虾米') { // 如果是虾米的歌曲
           obj.url = url

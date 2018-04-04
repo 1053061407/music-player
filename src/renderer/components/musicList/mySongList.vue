@@ -8,7 +8,7 @@
         label="歌曲名"
         width="180">
         <template slot-scope="scope">
-          <el-button  size="small" type="text"  @click="playMusic(scope.row.id,scope.row.name,scope.row.singer,scope.row.url)">{{scope.row.name}}
+          <el-button  size="small" type="text"  @click="playMusic(scope.row.id,scope.row.name,scope.row.singer,scope.row.url,scope.row.alias)">{{scope.row.name}}
           </el-button>
         </template>
       </el-table-column>
@@ -63,7 +63,7 @@
         }
         console.log(this.musicList)
       },
-      playMusic(id,songName,singer,url) {
+      playMusic(id,songName,singer,url,alias) {
         this.status = 'play';
         this.songName = songName;
         this.singer = singer;
@@ -77,8 +77,8 @@
           obj.musicUrl = this.musicUrl
           this.$emit('input', obj)
         }
-        else {  // 如果歌曲来自于网易云音乐
-          fetchMusicUrl(id, 'netease').then(response => {
+        else {  // 如果歌曲来自于网易云音乐或者QQ音乐
+          fetchMusicUrl(id, alias).then(response => {
             this.musicUrl = response.data.url;
             obj.musicUrl = this.musicUrl
             this.$emit('input', obj)
