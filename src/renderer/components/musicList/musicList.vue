@@ -197,8 +197,16 @@
         else {
           fetchMusicUrl(id, this.alias).then(response => {
           this.musicUrl = response.data.url;
-          obj.musicUrl = this.musicUrl
-          this.$emit('input', obj)
+          obj.musicUrl = this.musicUrl;
+          if(!response.data.url) {
+            this.$message({
+              showClose: true,
+              message: '版权原因暂时无法播放，请搜索其他平台',
+            });
+          }
+          else {
+            this.$emit('input', obj);
+          }
           })
         }
       },
